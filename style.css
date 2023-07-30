@@ -1,0 +1,113 @@
+body {
+    font-family: sans-serif;
+    height: 100vw;
+    width: 100vw;
+    background-color: aliceblue;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+h3 {
+    color: rgb(100, 100, 100);
+    font-size: 45px;
+    text-align: center;
+}
+
+:root {
+    --button-color: #aaadaf;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;    width: 480px;
+    flex-wrap: wrap;
+    background-color: grey;
+    display: flex;
+    justify-content: space-around; /*change if needed to center*/
+    align-items: center;
+}
+
+.div-element {
+    height: 30px;
+    width: 30px;
+    background-color: rgb(238, 235, 255);
+}
+
+.paint-element {
+    background-color: black;
+}
+
+.div-element:hover {
+    background-color: black;
+}
+
+.button-19 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    background-color: rgb(128, 128, 128);
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    box-sizing: border-box;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: din-round, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    line-height: 20px;
+    margin: 0;
+    outline: none;
+    overflow: visible;
+    padding: 13px 16px;
+    text-align: center;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transition: filter .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.button-19:after {
+    background-clip: padding-box;
+    background-color: #aaadaf;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    bottom: -4px;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}
+
+.button-19:main,
+.button-19:focus {
+    user-select: auto;
+}
+
+.button-19:hover:not(:disabled) {
+    filter: brightness(1.1);
+    -webkit-filter: brightness(1.1);
+}
+
+.button-19:disabled {
+    cursor: auto;
+}
+
+.wrapper {
+    position: relative;
+    width: 480px;
+    height: 480px;
+    margin: 50px auto;
+}
