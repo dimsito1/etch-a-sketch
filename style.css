@@ -1,20 +1,22 @@
 body {
-    font-family: sans-serif;
+    font-family: din-round, sans-serif !important;
     height: 100vw;
     width: 100vw;
     background-color: aliceblue;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 h3 {
-    color: rgb(100, 100, 100);
+    color: rgb(128, 128, 128);
     font-size: 45px;
     text-align: center;
 }
 
 :root {
+    --back-ground-color: rgb(128, 128, 128);
     --button-color: #aaadaf;
 }
 
@@ -24,7 +26,7 @@ h3 {
     height: 100%;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;    width: 480px;
     flex-wrap: wrap;
-    background-color: grey;
+    background-color: rgb(var(--back-ground-color), 0.3);
     display: flex;
     justify-content: space-around; /*change if needed to center*/
     align-items: center;
@@ -33,28 +35,29 @@ h3 {
 .div-element {
     height: 30px;
     width: 30px;
-    background-color: rgb(238, 235, 255);
+    background-color: rgb(128, 128, 128);
 }
 
 .paint-element {
     background-color: black;
 }
 
-.div-element:hover {
+/* .div-element:hover {
     background-color: black;
-}
+} */
 
 .button-19 {
+    transition: transform 0.1s ease-out, filter .2s;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
-    background-color: rgb(128, 128, 128);
+    background-color:rgb(58, 58, 58);
     border: solid transparent;
     border-radius: 16px;
     border-width: 0 0 4px;
     box-sizing: border-box;
-    color: #ffffff;
+    color: rgb(100, 100, 100);
     cursor: pointer;
     display: inline-block;
     font-family: din-round, sans-serif;
@@ -69,7 +72,6 @@ h3 {
     text-align: center;
     text-transform: uppercase;
     touch-action: manipulation;
-    transition: filter .2s;
     user-select: none;
     -webkit-user-select: none;
     vertical-align: middle;
@@ -78,7 +80,7 @@ h3 {
 
 .button-19:after {
     background-clip: padding-box;
-    background-color: #aaadaf;
+    background-color: aliceblue;
     border: solid transparent;
     border-radius: 16px;
     border-width: 0 0 4px;
@@ -101,6 +103,10 @@ h3 {
     -webkit-filter: brightness(1.1);
 }
 
+.button-19:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
 .button-19:disabled {
     cursor: auto;
 }
@@ -110,4 +116,21 @@ h3 {
     width: 480px;
     height: 480px;
     margin: 50px auto;
+}
+
+.footer a{
+    text-decoration: none;
+    color: aliceblue;
+}
+
+.footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    position: fixed;
+    padding: 5px;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    background-color: rgb(128, 128, 128, 0.5);
 }
