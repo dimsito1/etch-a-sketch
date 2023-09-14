@@ -1,4 +1,5 @@
 body {
+    position: relative;
     font-family: din-round, sans-serif !important;
     height: 100vw;
     width: 100vw;
@@ -117,10 +118,10 @@ h3 {
 }
 
 .wrapper {
+    margin: 50px auto;
     position: relative;
     width: 480px;
     height: 480px;
-    margin: 50px auto;
 }
 
 .footer a {
@@ -139,4 +140,81 @@ h3 {
     height: 30px;
     line-height: 30px;
     background-color: rgb(128, 128, 128, 0.5);
+}
+
+.button-new-grid {
+    font-weight: 600;
+    border: solid 3px transparent;
+    font-family: din-round, sans-serif !important;
+    white-space: nowrap;
+    opacity: 0;
+    text-align: center;
+    width: 136px;
+    top: 0%;
+    left: 110%;
+    position: absolute;
+    transform: 1s, translateY(0);
+    font-size: 18px;
+    color: #fff;
+    background: linear-gradient(95deg, rgb(128, 128, 128, 0.5) 0%, #d3a0d6 100%);
+    padding: 10px 30px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+    border-radius: 14px;
+    transition : 1s;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+
+.button-new-grid:hover {
+    border-color: var(--back-ground-color);
+    transition : 100ms;
+    padding: 10px 26px;
+    transform : translateY(-0px);
+    background: linear-gradient(95deg, rgb(128, 128, 128, 0.5) 0%, #d3a0d6 100%);
+    color: var(--back-ground-color);
+    border: solid 3px var(--back-ground-color);
+}
+
+.close-button {
+    opacity: 0;
+    transition: 1s;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-size: larger;
+    font-weight: 700;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    top: 0%;
+    color: white;
+    background-color: #d3a0d6;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+    left: 140%;
+    position: absolute;
+}
+
+.close-button:hover {
+    transition : 100ms;
+    transform : translateY(-0px);
+    color: var(--back-ground-color);
+    border: solid 3px var(--back-ground-color);
+}
+
+.button-new-grid-change {
+    background: linear-gradient(95deg, rgb(128, 128, 128, 0.5) 0%, rgb(128, 128, 128, 0.5) 100%);
+}
+
+.button-new-grid-change:hover {
+    padding: 0;
+    border-color: var(--back-ground-color);
+    transition : 100ms;
+    padding: 10px 27px;
+    transform : translateY(-0px);
+    background: linear-gradient(95deg, rgb(128, 128, 128, 0.5) 0%, #d3a0d6 100%);
+    color: var(--back-ground-color);
+    border: solid 3px var(--back-ground-color);
 }
