@@ -150,7 +150,7 @@ h3 {
     opacity: 0;
     text-align: center;
     width: 136px;
-    top: 0%;
+    top: 1%;
     left: 110%;
     position: absolute;
     transform: 1s, translateY(0);
@@ -189,11 +189,11 @@ h3 {
     height: 40px;
     width: 40px;
     border-radius: 20px;
-    top: 0%;
+    top: 1%;
     color: white;
     background-color: #d3a0d6;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
-    left: 140%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    left: 142%;
     position: absolute;
 }
 
@@ -205,10 +205,16 @@ h3 {
 }
 
 .button-new-grid-change {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     background: linear-gradient(95deg, rgb(128, 128, 128, 0.5) 0%, rgb(128, 128, 128, 0.5) 100%);
 }
 
+.button-19, .button-new-grid, .close-button {
+    z-index: 2;
+}
+
 .button-new-grid-change:hover {
+    color: purple;
     padding: 0;
     border-color: var(--back-ground-color);
     transition : 100ms;
@@ -217,4 +223,40 @@ h3 {
     background: linear-gradient(95deg, rgb(128, 128, 128, 0.5) 0%, #d3a0d6 100%);
     color: var(--back-ground-color);
     border: solid 3px var(--back-ground-color);
+}
+
+@keyframes expandRectangle {
+    0% {
+        width: 1px;    /* Initial width */
+        height: 1px;   /* Initial height */
+    }
+    100% {
+        width: 228px;   /* Final width */
+        height: 130px;/* Final height */
+    }
+}
+
+@keyframes shrinkRectangle {
+    0% {
+        width: 228px;   /* Final width */
+        height: 130px;
+    }
+    100% {
+        width: 1px;   /* Final width */
+        height: 1px;
+    }
+}
+
+.right-container {
+    transition: 0.5s;
+    z-index: 1;
+    top: 0%;
+    left: 106%;
+    animation: expandRectangle 1s forwards; 
+    /* transition: 1s; */
+    opacity: 0;
+    position: absolute;
+    border-radius: 16px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.795), rgba(221, 221, 221, 0.767));
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
