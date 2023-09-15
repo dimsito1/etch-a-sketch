@@ -20,6 +20,8 @@ h3 {
 :root {
     --back-ground-color: rgb(128, 128, 128);
     --button-color: #aaadaf;
+    --footer-color: rgb(128, 128, 128, 0.5);
+    --pink-color: #d3a0d6;
 }
 
 .container {
@@ -156,7 +158,7 @@ h3 {
     transform: 1s, translateY(0);
     font-size: 18px;
     color: #fff;
-    background: linear-gradient(95deg, rgb(128, 128, 128, 0.5) 0%, #d3a0d6 100%);
+    background: linear-gradient(95deg, var(--footer-color) 0%, #d3a0d6 100%);
     padding: 10px 30px;
     border: none;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
@@ -168,12 +170,24 @@ h3 {
     cursor: pointer;
 }
 
+
 .button-new-grid:hover {
     border-color: var(--back-ground-color);
     transition : 100ms;
     padding: 10px 26px;
     transform : translateY(-0px);
-    background: linear-gradient(95deg, rgb(128, 128, 128, 0.5) 0%, #d3a0d6 100%);
+    background: linear-gradient(95deg, var(--footer-color) 0%, #d3a0d6 100%);
+    color: var(--back-ground-color);
+    border: solid 3px var(--back-ground-color);
+}
+
+.button-set-size:hover {
+    padding: 0;
+    border-color: var(--back-ground-color);
+    transition : 100ms;
+    padding: 10px 27px;
+    transform : translateY(-0px);
+    background: rgb(128, 128, 128, 0.5);
     color: var(--back-ground-color);
     border: solid 3px var(--back-ground-color);
 }
@@ -204,7 +218,7 @@ h3 {
     border: solid 3px var(--back-ground-color);
 }
 
-.button-new-grid-change {
+.button-set-size {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     background: linear-gradient(95deg, rgb(128, 128, 128, 0.5) 0%, rgb(128, 128, 128, 0.5) 100%);
 }
@@ -213,17 +227,6 @@ h3 {
     z-index: 2;
 }
 
-.button-new-grid-change:hover {
-    color: purple;
-    padding: 0;
-    border-color: var(--back-ground-color);
-    transition : 100ms;
-    padding: 10px 27px;
-    transform : translateY(-0px);
-    background: linear-gradient(95deg, rgb(128, 128, 128, 0.5) 0%, #d3a0d6 100%);
-    color: var(--back-ground-color);
-    border: solid 3px var(--back-ground-color);
-}
 
 @keyframes expandRectangle {
     0% {
@@ -259,4 +262,38 @@ h3 {
     border-radius: 16px;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.795), rgba(221, 221, 221, 0.767));
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.slider {
+    z-index: 2;
+    top: 21%;
+    left: 113%;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.4s;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.slider::-webkit-slider-runnable-track {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.795), rgba(221, 221, 221, 0.767));
+}
+  
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;  
+    height: 20px;
+    background-color: #4CAF50;
+}
+
+.slider-number {
+    z-index: 2;
+    width: 4rem;
+    color: rgba(142,143,152,255);
+    top: 17%;
+    left: calc(124% + 2px);
+    position: absolute;
+    font-weight: 700;
+    opacity: 0;
+    transition: 1s;
 }
