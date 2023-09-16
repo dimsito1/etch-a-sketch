@@ -12,7 +12,7 @@ body {
 
 h3 {
     color: rgb(128, 128, 128);
-    font-size: 45px;
+    font-size: 52px;
     text-align: center;
     margin-bottom: 100px;
 }
@@ -25,33 +25,31 @@ h3 {
 }
 
 .container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
     width: 480px;
+    height: 480px;
+    position: relative;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
     flex-wrap: wrap;
-    background-color: rgb(var(--back-ground-color), 0.3);
     display: flex;
+    background-color: rgb(var(--back-ground-color), 0.3);
     justify-content: space-around;
-    /*change if needed to center*/
     align-items: center;
 }
 
-.div-element {
+.grid-element {
+    user-select: none;
     transition: 1s;
     height: 30px;
     width: 30px;
     background-color: rgb(128, 128, 128);
 }
 
-.paint-element {
-    background-color: black;
+.painting-mode {
+    transition: 0s;
 }
 
-.div-element.active:hover {
-    transition: 0s;
-    background-color: black !important;
+.active {
+    background-color: white;
 }
 
 .button-19 {
@@ -144,44 +142,70 @@ h3 {
     background-color: rgb(128, 128, 128, 0.5);
 }
 
-.button-new-grid {
+.button-new-grid-pos {
+    width: 136px;
+    top: 1%;
+    left: 110%;
+}
+
+
+
+.close-button-style {
+    z-index: 2;
+    opacity: 0;
+    transition: 1s;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-size: larger;
+    height: 40px;
+    width: 40px;
+    font-weight: 700;
+    border-radius: 20px;
+    color: white;
+    background-color: #d3a0d6;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    position: absolute;
+}
+
+.close-button-pos {
+    top: 1%;
+    left: 142%;
+    position: absolute;
+}
+
+.close-button-style:hover {
+    transition : 100ms;
+    transform : translateY(-0px);
+    color: var(--back-ground-color);
+    border: solid 3px var(--back-ground-color);
+}
+
+.common-button-style {
     font-weight: 600;
+    z-index: 2;
     border: solid 3px transparent;
     font-family: din-round, sans-serif !important;
     white-space: nowrap;
     opacity: 0;
     text-align: center;
-    width: 136px;
-    top: 1%;
-    left: 110%;
     position: absolute;
     transform: 1s, translateY(0);
     font-size: 18px;
     color: #fff;
-    background: linear-gradient(95deg, var(--footer-color) 0%, #d3a0d6 100%);
+    background: linear-gradient(95deg, rgb(128, 128, 128, 0.5) 0%, rgb(128, 128, 128, 0.5) 100%);
     padding: 10px 30px;
     border: none;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 14px;
     transition : 1s;
     display: flex;
     flex-direction: row;
     align-items: center;
-    cursor: pointer;
+    cursor: pointer; 
 }
 
-
-.button-new-grid:hover {
-    border-color: var(--back-ground-color);
-    transition : 100ms;
-    padding: 10px 26px;
-    transform : translateY(-0px);
-    background: linear-gradient(95deg, var(--footer-color) 0%, #d3a0d6 100%);
-    color: var(--back-ground-color);
-    border: solid 3px var(--back-ground-color);
-}
-
-.button-set-size:hover {
+.common-button-style:hover {
     padding: 0;
     border-color: var(--back-ground-color);
     transition : 100ms;
@@ -192,43 +216,7 @@ h3 {
     border: solid 3px var(--back-ground-color);
 }
 
-.close-button {
-    opacity: 0;
-    transition: 1s;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    font-size: larger;
-    font-weight: 700;
-    height: 40px;
-    width: 40px;
-    border-radius: 20px;
-    top: 1%;
-    color: white;
-    background-color: #d3a0d6;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    left: 142%;
-    position: absolute;
-}
-
-.close-button:hover {
-    transition : 100ms;
-    transform : translateY(-0px);
-    color: var(--back-ground-color);
-    border: solid 3px var(--back-ground-color);
-}
-
-.button-set-size {
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    background: linear-gradient(95deg, rgb(128, 128, 128, 0.5) 0%, rgb(128, 128, 128, 0.5) 100%);
-}
-
-.button-19, .button-new-grid, .close-button {
-    z-index: 2;
-}
-
-
-@keyframes expandRectangle {
+@keyframes expandRightRectangle {
     0% {
         width: 1px;    /* Initial width */
         height: 1px;   /* Initial height */
@@ -239,7 +227,7 @@ h3 {
     }
 }
 
-@keyframes shrinkRectangle {
+@keyframes shrinkRightRectangle {
     0% {
         width: 228px;   /* Final width */
         height: 130px;
@@ -250,18 +238,41 @@ h3 {
     }
 }
 
-.right-container {
+@keyframes expandLeftRectangle {
+    0% {
+        width: 1px;    /* Initial width */
+        height: 1px;   /* Initial height */
+    }
+    100% {
+        width: 255px;   /* Final width */
+        height: 480px;/* Final height */
+    }
+}
+
+@keyframes shrinkLeftRectangle {
+    0% {
+        width: 255px;   /* Final width */
+        height: 480px;
+    }
+    100% {
+        width: 1px;   /* Final width */
+        height: 1px;
+    }
+}
+
+.container-style {
     transition: 0.5s;
     z-index: 1;
-    top: 0%;
-    left: 106%;
-    animation: expandRectangle 1s forwards; 
-    /* transition: 1s; */
     opacity: 0;
     position: absolute;
     border-radius: 16px;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.795), rgba(221, 221, 221, 0.767));
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.right-container-pos {
+    top: 0%;
+    left: 106%;
 }
 
 .slider {
@@ -275,17 +286,6 @@ h3 {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.slider::-webkit-slider-runnable-track {
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.795), rgba(221, 221, 221, 0.767));
-}
-  
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px;  
-    height: 20px;
-    background-color: #4CAF50;
-}
-
 .slider-number {
     z-index: 2;
     width: 4rem;
@@ -296,4 +296,49 @@ h3 {
     font-weight: 700;
     opacity: 0;
     transition: 1s;
+}
+
+.rainbow-button-style {
+    z-index: 2;
+    font-weight: 600;
+    border: solid 3px transparent;
+    font-family: din-round, sans-serif !important;
+    white-space: nowrap;
+    opacity: 0;
+    text-align: center;
+    position: absolute;
+    transform: 1s, translateY(0);
+    font-size: 18px;
+    color: #fff;
+    background: linear-gradient(95deg, var(--footer-color) 0%, #d3a0d6 100%);
+    padding: 10px 30px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+    border-radius: 14px;
+    transition : 1s;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer; 
+}
+
+.rainbow-button-style:hover {
+    border-color: var(--back-ground-color);
+    transition : 100ms;
+    padding: 10px 26px;
+    transform : translateY(-0px);
+    background: linear-gradient(95deg, var(--footer-color) 0%, #d3a0d6 100%);
+    color: var(--back-ground-color);
+    border: solid 3px var(--back-ground-color);
+}
+
+.color-options-button-pos {
+    width: 178px;
+    top: 1%;
+    right: 125%;
+}
+
+.left-container-pos {
+    right: 113%;
+    top: 0%;
 }
