@@ -1,41 +1,49 @@
-let container = document.querySelector(".container");
-let startButton = document.querySelector(".button-19");
-let wrapper = document.querySelector(".wrapper");
-let slider = document.querySelector(".slider");
+const container = document.querySelector(".container");
+const startButton = document.querySelector(".button-19");
+const wrapper = document.querySelector(".wrapper");
+const slider = document.querySelector(".slider");
 
-let colorOptionsButton = document.createElement("button");
-let sliderNumberDiv = document.createElement("div");
-let rightContainer = document.createElement("div");
-let leftContainer = document.createElement("div");
-let newGridButton = document.createElement("button");
-let closeGridButton = document.createElement("button");
+const colorOptionsButton = document.createElement("button");
+const sliderNumberDiv = document.createElement("div");
+const rightContainer = document.createElement("div");
+const leftContainer = document.createElement("div");
+const newGridButton = document.createElement("button");
+const closeGridButtonR = document.createElement("button");
+const closeGridButtonL = document.createElement("button");
+const colorInput = document.createElement("input");
+const colorInputWrapper = document.createElement("div");
+const rainbowModeButton = document.createElement("div");
 
 let isGridFilled = false;
-let isClosing = false;
+let isClosingR = false;
+let isClosingL = false;
 let isNewGridActive = false;
 let isSliderActive = false;
 let isDragging = false;
+let isColorOptionsActive = false;
 
 let leftContainerTimeout;
 let sliderNumberTimeout;
 let sliderTimeout;
 let rightContainerTimeout;
-let closingBtnTimeout;
+let closingBtnTimeoutR;
+let closingBtnTimeoutL;
+let colorInputTimeout;
 
-let gridSize = 16;
+let gridSize;
 
 function fillGridElements(newGridSize, newPixelSize) {
   gridSize = newGridSize;
 
   if (isGridFilled) {
-    let gridElements = document.querySelectorAll(".grid-element");
+    const gridElements = document.querySelectorAll(".grid-element");
     gridElements.forEach(element => {
         element.remove();
     });
   }
 
   for (let index = 0; index < newGridSize * newGridSize; index++) {
-    let gridElement = document.createElement("div");
+    const gridElement = document.createElement("div");
 
     gridElement.classList.add("grid-element");
     gridElement.style.height = newPixelSize + 'px';
@@ -56,63 +64,113 @@ container.addEventListener('mousedown', function(e) {
 });
 
 container.addEventListener('mouseover', function(e) {
-    if (isDragging && e.target.classList.contains('grid-element')) {
-        e.target.style.backgroundColor = "purple";
-    }
+  if (isDragging && e.target.classList.contains('grid-element')) {
+    e.target.style.backgroundColor = "purple";
+  }
 });
 
 document.addEventListener('mouseup', function() {
     isDragging = false;
 });
 
+
+function setupColorInput() {
+  colorInputWrapper.classList.add("color-input-wrapper");
+  colorInput.classList.add("color-input-pos");
+  colorInput.setAttribute('type', 'color');
+  colorInput.setAttribute('id', 'colorPicker');
+  colorInput.setAttribute('value', '#d3a0d6');
+  
+  colorInputWrapper.appendChild(colorInput);
+  wrapper.appendChild(colorInputWrapper);
+  colorInput.style.zIndex = '3';
+  colorInputTimeout = setTimeout(() => {
+    colorInputWrapper.style.opacity = "1";
+  }, 300);
+}
+
 function setupSliderNumber() {
   sliderNumberDiv.classList.add("slider-number");
   sliderNumberDiv.innerText = "16 x 16";
   sliderNumberDiv.style.opacity = '0';
+  wrapper.appendChild(sliderNumberDiv);
+  sliderNumberTimeout = setTimeout(() => {
+    sliderNumberDiv.style.opacity = "1";
+  }, 450);
+}
+
+function setupRainbowModeButton() {
+  rainbowModeButton.classList.add("common-button-style");
+  rainbowModeButton.classList.add("rainbow-mode-button-pos");
+  rainbowModeButton.innerText = "Rainbow Mode";
+  wrapper.appendChild(rainbowModeButton);
+  setTimeout(() => {
+    rainbowModeButton.style.opacity = "1";
+  }, 300);
 }
 
 function setupNewGridButton() {
   newGridButton.classList.add("rainbow-button-style");
   newGridButton.classList.add("button-new-grid-pos");
   newGridButton.innerText = "New Grid";
+  wrapper.appendChild(newGridButton);
+  setTimeout(() => {
+    newGridButton.style.opacity = "1";
+  }, 300);
 }
 
-function setupCloseButton() {
-  closeGridButton.classList.add("close-button-style");
-  closeGridButton.classList.add("close-button-pos");
-  closeGridButton.innerText = "X";
+function setupCloseButtonR() {
+  closeGridButtonR.classList.add("close-button-style");
+  closeGridButtonR.classList.add("close-button-pos-r");
+  closeGridButtonR.innerText = "X";
+  wrapper.appendChild(closeGridButtonR);
+  closingBtnTimeoutR = setTimeout(() => {
+    closeGridButtonR.style.opacity = "1";
+  }, 300);
+}
+
+function setupCloseButtonL() {
+  closeGridButtonL.classList.add("close-button-style");
+  closeGridButtonL.classList.add("close-button-pos-l");
+  closeGridButtonL.innerText = "X";
+  wrapper.appendChild(closeGridButtonL);
+  closingBtnTimeoutL = setTimeout(() => {
+    closeGridButtonL.style.opacity = "1";
+  }, 300);
 }
 
 function setupColorOptionsButton() {
   colorOptionsButton.classList.add("rainbow-button-style");
   colorOptionsButton.classList.add("color-options-button-pos");
   colorOptionsButton.innerText = "Color Options";
+  wrapper.appendChild(colorOptionsButton);
+  setTimeout(() => {
+    colorOptionsButton.style.opacity = "1";
+  }, 300);
 }
 
 function setupRightContainer() {
   rightContainer.classList.add("right-container-pos");
   rightContainer.classList.add("container-style");
   rightContainer.style.animation = "expandRightRectangle 1s forwards";
+  wrapper.appendChild(rightContainer);
+  rightContainerTimeout = setTimeout(() => {
+    rightContainer.style.opacity = "1";
+  }, 300);
 }
 
 function setupLeftContainer() {
   leftContainer.classList.add("left-container-pos");
   leftContainer.classList.add("container-style");
   leftContainer.style.animation = "expandLeftRectangle 1s forwards";
+  wrapper.appendChild(leftContainer);
+  leftContainerTimeout = setTimeout(() => {
+    leftContainer.style.opacity = "1";
+  }, 300)
 }
 
-// function addPaintingMode(gridElements, index) {
-//   gridElements[index].classList.add("painting-mode");
-// }
-
-// function addPaintingMode(gridElements) {
-//   gridElements.forEach(element => {
-//     element.classList.add("painting-mode");
-//   });
-// }
-
 function gridAnimation(gridSize, delay) {
-  let gridElements = document.querySelectorAll(".grid-element");
+  const gridElements = document.querySelectorAll(".grid-element");
   
   for (let index = 0; index < gridSize * gridSize; index++) {
     setTimeout(() => {
@@ -137,24 +195,19 @@ startButton.addEventListener('click', () => {
   
   gridAnimation(gridSize, 8);
   
+  sliderNumberDiv.style.opacity = '0';
+  
   setupColorOptionsButton();
   setupNewGridButton();
-  
-  sliderNumberDiv.style.opacity = '0';
-  wrapper.appendChild(newGridButton);
-  wrapper.appendChild(colorOptionsButton);
-  setTimeout(() => {
-    colorOptionsButton.style.opacity = "1";
-    newGridButton.style.opacity = "1";
-  }, 300);
 });
 
 newGridButton.addEventListener('click', () => {
-  if (isClosing) {
+  if (isClosingR) {
     return;
   }
   
   if (!isNewGridActive && !isSliderActive) {
+    //click new grid
     slider.value = 16;
     slider.style.display = "block";
   
@@ -163,38 +216,25 @@ newGridButton.addEventListener('click', () => {
     newGridButton.classList.toggle("rainbow-button-style");
     
     if (!document.querySelector(".close-button")) {
-      wrapper.appendChild(closeGridButton);
+      wrapper.appendChild(closeGridButtonR);
     }
     
     rightContainer.style.animation = "";
     
-    setupCloseButton();
-    wrapper.appendChild(closeGridButton);
-    closingBtnTimeout = setTimeout(() => {
-      closeGridButton.style.opacity = "1";
-    }, 300);
-  
+    setupCloseButtonR();
     setupRightContainer();
-    wrapper.appendChild(rightContainer);
-    rightContainerTimeout = setTimeout(() => {
-      rightContainer.style.opacity = "1";
-    }, 300);
 
-    
     sliderTimeout = setTimeout(() => {
       slider.style.visibility = "visible";
       slider.style.opacity = "0.7"; 
     }, 450);
     
     setupSliderNumber();
-    wrapper.appendChild(sliderNumberDiv);
-    sliderNumberTimeout = setTimeout(() => {
-      sliderNumberDiv.style.opacity = "1";
-    }, 450);
     
     isNewGridActive = true;
   }
   else {
+    // click set size
     let sliderNumber = parseInt(slider.value);
     container.style.gridTemplateColumns = `repeat(${sliderNumber}, 1fr)`;
     
@@ -219,21 +259,68 @@ newGridButton.addEventListener('click', () => {
 });
 
 colorOptionsButton.addEventListener('click', () => {
-  setupLeftContainer();
-  wrapper.appendChild(leftContainer);
-  leftContainerTimeout = setTimeout(() => {
-    leftContainer.style.opacity = "1";
-  }, 300)
+  if (isClosingL) {
+    return;
+  }
+
+  if (!isColorOptionsActive) {
+    colorOptionsButton.innerText = "Color Mode";
+    colorOptionsButton.classList.toggle("rainbow-button-style");
+    colorOptionsButton.classList.toggle("common-button-style");
+    colorOptionsButton.classList.toggle("common-button-clicked-style");
+    colorOptionsButton.style.textAlign = "center"
+
+    setupCloseButtonL();
+    
+    setupLeftContainer();
+
+    setupColorInput();
+
+    setupRainbowModeButton();
+
+
+    isColorOptionsActive = true;
+  }
+  // else {
+
+
+  //   isColorOptionsActive = false;
+  // }
 })
 
-closeGridButton.addEventListener('click', () => {
+closeGridButtonL.addEventListener('click', () => {
+  clearTimeout(closingBtnTimeoutL);
+  clearTimeout(leftContainerTimeout);
+
+  isClosingL = true;
+  isColorOptionsActive = false;
+
+  colorOptionsButton.innerText = "Color Options";
+  colorOptionsButton.classList.toggle("common-button-clicked-style");
+  colorOptionsButton.classList.toggle("common-button-style");
+  colorOptionsButton.classList.toggle("rainbow-button-style");
+
+  leftContainer.style.animation = "shrinkLeftRectangle 1s backwards";
+  closeGridButtonL.remove();
+  closeGridButtonL.style.opacity = '0';
+
+  setTimeout(() => {
+    leftContainer.style.opacity = '0';
+  }, 20);
+
+  setTimeout(() => {
+    isClosingL = false;
+  }, 20); 
+});
+
+closeGridButtonR.addEventListener('click', () => {
   clearTimeout(sliderNumberDiv);
-  clearTimeout(closingBtnTimeout);
+  clearTimeout(closingBtnTimeoutR);
   clearTimeout(rightContainerTimeout);
   clearTimeout(sliderTimeout);
 
   isSliderActive = false;
-  isClosing = true;
+  isClosingR = true;
   isNewGridActive = false;
   
   newGridButton.innerText = "New Grid";
@@ -241,8 +328,8 @@ closeGridButton.addEventListener('click', () => {
   newGridButton.classList.toggle("rainbow-button-style");
 
   rightContainer.style.animation = "shrinkRightRectangle 1s backwards";
-  closeGridButton.remove();
-  closeGridButton.style.opacity = '0';
+  closeGridButtonR.remove();
+  closeGridButtonR.style.opacity = '0';
 
   setTimeout(() => {
     rightContainer.style.opacity = '0';
@@ -254,7 +341,7 @@ closeGridButton.addEventListener('click', () => {
   sliderNumberDiv.remove();
 
   setTimeout(() => {
-    isClosing = false;
+    isClosingR = false;
   }, 20);
 });
 
