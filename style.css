@@ -375,7 +375,31 @@ h3 {
 }
 
 .rainbow-mode-button-pos {
-    width: 178px;
+    height: 41px;
+    padding: 0;
+    width: 172px;
     top: 15%;
+    right: 125%;
+}
+
+.rainbow-mode-button-pos:hover {
+    padding: 0;
+    border-color: var(--back-ground-color);
+    transition : 100ms;
+    transform : translateY(-0px);
+    background: rgb(128, 128, 128, 0.5);
+    color: var(--back-ground-color);
+    border: solid 3px var(--back-ground-color);   
+}
+
+.buttons-modes { 
+    color: blue !important;
+}
+
+.eraser-pos {
+    height: 41px;
+    padding: 0;
+    width: 172px;
+    top: 30%;
     right: 125%;
 }

@@ -3,6 +3,7 @@ const startButton = document.querySelector(".button-19");
 const wrapper = document.querySelector(".wrapper");
 const slider = document.querySelector(".slider");
 
+const eraser = document.createElement("button");
 const colorOptionsButton = document.createElement("button");
 const sliderNumberDiv = document.createElement("div");
 const rightContainer = document.createElement("div");
@@ -22,6 +23,10 @@ let isSliderActive = false;
 let isDragging = false;
 let isColorOptionsActive = false;
 
+let currentMode = "color-mode";
+
+let eraserBtnTimeout;
+let rainbowBtnTimeout;
 let leftContainerTimeout;
 let sliderNumberTimeout;
 let sliderTimeout;
@@ -34,17 +39,17 @@ let gridSize;
 
 function fillGridElements(newGridSize, newPixelSize) {
   gridSize = newGridSize;
-
+  
   if (isGridFilled) {
     const gridElements = document.querySelectorAll(".grid-element");
     gridElements.forEach(element => {
-        element.remove();
+      element.remove();
     });
   }
-
+  
   for (let index = 0; index < newGridSize * newGridSize; index++) {
     const gridElement = document.createElement("div");
-
+    
     gridElement.classList.add("grid-element");
     gridElement.style.height = newPixelSize + 'px';
     gridElement.style.width = newPixelSize + 'px';
@@ -55,22 +60,22 @@ function fillGridElements(newGridSize, newPixelSize) {
   isGridFilled = true;
 }
 
-container.addEventListener('mousedown', function(e) {
-    if (e.target.classList.contains('grid-element') &&
-        e.target.classList.contains('active')) {
-        isDragging = true;
-        e.target.style.backgroundColor = "black";
-    }
+container.addEventListener('mousedown', function (e) {
+  if (e.target.classList.contains('grid-element') &&
+  e.target.classList.contains('active')) {
+    isDragging = true;
+    e.target.style.backgroundColor = "black";
+  }
 });
 
-container.addEventListener('mouseover', function(e) {
+container.addEventListener('mouseover', function (e) {
   if (isDragging && e.target.classList.contains('grid-element')) {
     e.target.style.backgroundColor = "purple";
   }
 });
 
-document.addEventListener('mouseup', function() {
-    isDragging = false;
+document.addEventListener('mouseup', function () {
+  isDragging = false;
 });
 
 
@@ -102,10 +107,26 @@ function setupSliderNumber() {
 function setupRainbowModeButton() {
   rainbowModeButton.classList.add("common-button-style");
   rainbowModeButton.classList.add("rainbow-mode-button-pos");
+  rainbowModeButton.classList.add("buttons-modes");
+  rainbowModeButton.dataset.mode = "rainbow-mode";
   rainbowModeButton.innerText = "Rainbow Mode";
   wrapper.appendChild(rainbowModeButton);
-  setTimeout(() => {
+  
+  rainbowBtnTimeout = setTimeout(() => {
     rainbowModeButton.style.opacity = "1";
+  }, 300);
+}
+
+function setupEraserButton() {
+ eraser.classList.add("common-button-style");
+ eraser.classList.add("eraser-pos");
+ eraser.classList.add("buttons-modes");
+ eraser.dataset.mode = "eraser";
+ eraser.innerText = "Eraser";
+ wrapper.appendChild(eraser);
+
+  eraserBtnTimeout = setTimeout(() => {
+   eraser.style.opacity = "1";
   }, 300);
 }
 
@@ -186,12 +207,12 @@ function gridAnimation(gridSize, delay) {
 fillGridElements(16, 30);
 
 startButton.addEventListener('click', () => {
-  startButton.style.cursor = "default"; 
+  startButton.style.cursor = "default";
   startButton.style.opacity = "0";
   
   setTimeout(() => {
     startButton.style.display = "none";
-  }, 1000); 
+  }, 1000);
   
   gridAnimation(gridSize, 8);
   
@@ -210,7 +231,7 @@ newGridButton.addEventListener('click', () => {
     //click new grid
     slider.value = 16;
     slider.style.display = "block";
-  
+    
     newGridButton.innerText = "Set Size";
     newGridButton.classList.toggle("common-button-style");
     newGridButton.classList.toggle("rainbow-button-style");
@@ -223,10 +244,10 @@ newGridButton.addEventListener('click', () => {
     
     setupCloseButtonR();
     setupRightContainer();
-
+    
     sliderTimeout = setTimeout(() => {
       slider.style.visibility = "visible";
-      slider.style.opacity = "0.7"; 
+      slider.style.opacity = "0.7";
     }, 450);
     
     setupSliderNumber();
@@ -262,35 +283,65 @@ colorOptionsButton.addEventListener('click', () => {
   if (isClosingL) {
     return;
   }
-
+  
   if (!isColorOptionsActive) {
     colorOptionsButton.innerText = "Color Mode";
     colorOptionsButton.classList.toggle("rainbow-button-style");
     colorOptionsButton.classList.toggle("common-button-style");
     colorOptionsButton.classList.toggle("common-button-clicked-style");
-    colorOptionsButton.style.textAlign = "center"
-
+    colorOptionsButton.classList.add("buttons-modes");
+    colorOptionsButton.dataset.mode = "color-mode";
+    
     setupCloseButtonL();
     
     setupLeftContainer();
-
-    setupColorInput();
-
+    
+    //ISSUE IN COLOR INPUT ERROR 404
+    // setupColorInput();
+    
     setupRainbowModeButton();
+    
+    setupEraserButton();
 
+    const buttonsModes = document.querySelectorAll(".buttons-modes");
+
+    buttonsModes.forEach(btn => {
+      btn.addEventListener('click', function () {
+        buttonsModes.forEach(innerBtn => {
+          innerBtn.classList.remove("common-button-clicked-style");
+        });
+        this.classList.add("common-button-clicked-style")
+    
+        switch(this.dataset.mode) {
+          case "color-mode":
+            currentMode = "color-mode";
+            break;
+          case "rainbow-mode":
+            currentMode = "rainbow-mode";
+            break;
+          case "eraser":
+            currentMode = "eraser";
+            break;
+        }
+        console.log(currentMode);
+      });
+    });
 
     isColorOptionsActive = true;
   }
   // else {
-
-
-  //   isColorOptionsActive = false;
-  // }
-})
+    
+    
+    //   isColorOptionsActive = false;
+    // }
+  });
+  
 
 closeGridButtonL.addEventListener('click', () => {
+  clearTimeout(rainbowBtnTimeout);
   clearTimeout(closingBtnTimeoutL);
   clearTimeout(leftContainerTimeout);
+  clearTimeout(eraserBtnTimeout);
 
   isClosingL = true;
   isColorOptionsActive = false;
@@ -304,13 +355,19 @@ closeGridButtonL.addEventListener('click', () => {
   closeGridButtonL.remove();
   closeGridButtonL.style.opacity = '0';
 
+  rainbowModeButton.remove();
+  rainbowModeButton.style.opacity = '0';
+
+  eraser.remove();
+  eraser.style.opacity = '0';
+
   setTimeout(() => {
     leftContainer.style.opacity = '0';
   }, 20);
 
   setTimeout(() => {
     isClosingL = false;
-  }, 20); 
+  }, 20);
 });
 
 closeGridButtonR.addEventListener('click', () => {
@@ -322,7 +379,7 @@ closeGridButtonR.addEventListener('click', () => {
   isSliderActive = false;
   isClosingR = true;
   isNewGridActive = false;
-  
+
   newGridButton.innerText = "New Grid";
   newGridButton.classList.toggle("common-button-style");
   newGridButton.classList.toggle("rainbow-button-style");
@@ -345,7 +402,7 @@ closeGridButtonR.addEventListener('click', () => {
   }, 20);
 });
 
-slider.addEventListener('input', function() {
+slider.addEventListener('input', function () {
   if (slider.value < 10) {
     sliderNumberDiv.innerText = `${slider.value}\xA0 x ${slider.value}`;
   } else {
