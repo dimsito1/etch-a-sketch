@@ -24,6 +24,8 @@ let isDragging = false;
 let isColorOptionsActive = false;
 
 let currentMode = "color-mode";
+let currColor;
+let pickerColor;
 
 let eraserBtnTimeout;
 let rainbowBtnTimeout;
@@ -60,23 +62,52 @@ function fillGridElements(newGridSize, newPixelSize) {
   isGridFilled = true;
 }
 
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 container.addEventListener('mousedown', function (e) {
   if (e.target.classList.contains('grid-element') &&
   e.target.classList.contains('active')) {
     isDragging = true;
-    e.target.style.backgroundColor = "black";
+
+    if (currentMode == "rainbow-mode") {
+      currColor = getRandomColor();
+    }
+
+    e.target.style.backgroundColor = currColor;
   }
 });
 
 container.addEventListener('mouseover', function (e) {
   if (isDragging && e.target.classList.contains('grid-element')) {
-    e.target.style.backgroundColor = "purple";
+    if (currentMode == "rainbow-mode") {
+      currColor = getRandomColor();
+    }
+
+    e.target.style.backgroundColor = currColor;
+
   }
 });
 
 document.addEventListener('mouseup', function () {
   isDragging = false;
 });
+
+colorInput.addEventListener('input', (e) => {
+  pickerColor = e.target.value;
+
+  if(currentMode == "color-mode") {
+    currColor = pickerColor;
+  }
+
+});
+
 
 
 function setupColorInput() {
@@ -86,12 +117,22 @@ function setupColorInput() {
   colorInput.setAttribute('id', 'colorPicker');
   colorInput.setAttribute('value', '#d3a0d6');
   
+  colorInputWrapper.style.transition = "1s";
+  colorInput.style.transition = "1s";
+
+  colorInputWrapper.style.zIndex = "2";
+  colorInput.style.zIndex = '2';
+
   colorInputWrapper.appendChild(colorInput);
   wrapper.appendChild(colorInputWrapper);
-  colorInput.style.zIndex = '3';
+  
   colorInputTimeout = setTimeout(() => {
     colorInputWrapper.style.opacity = "1";
-  }, 300);
+    colorInput.style.opacity = "1";
+  }, 500);
+
+  pickerColor = colorInput.value;
+  currColor = colorInput.value;
 }
 
 function setupSliderNumber() {
@@ -219,6 +260,7 @@ startButton.addEventListener('click', () => {
   sliderNumberDiv.style.opacity = '0';
   
   setupColorOptionsButton();
+
   setupNewGridButton();
 });
 
@@ -243,6 +285,7 @@ newGridButton.addEventListener('click', () => {
     rightContainer.style.animation = "";
     
     setupCloseButtonR();
+
     setupRightContainer();
     
     sliderTimeout = setTimeout(() => {
@@ -259,20 +302,19 @@ newGridButton.addEventListener('click', () => {
     let sliderNumber = parseInt(slider.value);
     container.style.gridTemplateColumns = `repeat(${sliderNumber}, 1fr)`;
     
-    let dleayPerElement = 2048 / (sliderNumber * sliderNumber);
+    let delayPerElement = 2048 / (sliderNumber * sliderNumber);
     pixelSize = Math.floor(480 / slider.value);
     
     let totalSize = pixelSize * slider.value;
     container.style.width = `${totalSize}px`;
     container.style.height = `${totalSize}px`;
     
-    
-    console.log("slider-number: " + sliderNumber);
-    console.log("pixel-size: " + pixelSize);
-    console.log("delay-per-element: " + dleayPerElement);
+    // console.log("slider-number: " + sliderNumber);
+    // console.log("pixel-size: " + pixelSize);
+    // console.log("delay-per-element: " + delayPerElement);
     
     fillGridElements(sliderNumber, pixelSize);
-    gridAnimation(sliderNumber, dleayPerElement);
+    gridAnimation(sliderNumber, delayPerElement);
     
     isNewGridActive = false;
     isSliderActive = true;
@@ -296,8 +338,7 @@ colorOptionsButton.addEventListener('click', () => {
     
     setupLeftContainer();
     
-    //ISSUE IN COLOR INPUT ERROR 404
-    // setupColorInput();
+    setupColorInput();
     
     setupRainbowModeButton();
     
@@ -314,16 +355,20 @@ colorOptionsButton.addEventListener('click', () => {
     
         switch(this.dataset.mode) {
           case "color-mode":
+            currColor = pickerColor;
             currentMode = "color-mode";
+            // console.log("color-mode");
             break;
           case "rainbow-mode":
             currentMode = "rainbow-mode";
+            // console.log("rainbow-mode");
             break;
           case "eraser":
+            currColor = "white";
             currentMode = "eraser";
+            // console.log("eraser");
             break;
         }
-        console.log(currentMode);
       });
     });
 
@@ -334,8 +379,7 @@ colorOptionsButton.addEventListener('click', () => {
     
     //   isColorOptionsActive = false;
     // }
-  });
-  
+});
 
 closeGridButtonL.addEventListener('click', () => {
   clearTimeout(rainbowBtnTimeout);
@@ -358,6 +402,11 @@ closeGridButtonL.addEventListener('click', () => {
   rainbowModeButton.remove();
   rainbowModeButton.style.opacity = '0';
 
+  colorInput.remove();
+  colorInputWrapper.remove();
+  colorInputWrapper.opacity = '0';
+  colorInput.style.opacity = '0';
+
   eraser.remove();
   eraser.style.opacity = '0';
 
@@ -375,6 +424,7 @@ closeGridButtonR.addEventListener('click', () => {
   clearTimeout(closingBtnTimeoutR);
   clearTimeout(rightContainerTimeout);
   clearTimeout(sliderTimeout);
+  clearTimeout(colorInputTimeout);
 
   isSliderActive = false;
   isClosingR = true;
@@ -409,4 +459,3 @@ slider.addEventListener('input', function () {
     sliderNumberDiv.innerText = `${slider.value} x ${slider.value}`;
   }
 });
-
