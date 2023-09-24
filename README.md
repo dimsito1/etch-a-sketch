@@ -3,4 +3,4 @@ Etch a scetch done in HTML, CSS and JS.
 
 ![Etch a Sketch](new-etch-png-copy.png)
 
-link: https://dimsito1.github.io/etch-a-sketch/
+[Click Me!]link: https://dimsito1.github.io/etch-a-sketch/
