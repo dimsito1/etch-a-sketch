@@ -402,3 +402,11 @@ h3 {
     top: 30%;
     right: 125%;
 }
+
+.color-picker-pos {
+    height: 41px;
+    padding: 0;
+    width: 172px;
+    top: 45%;
+    right: 125%;
+}

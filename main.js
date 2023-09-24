@@ -3,6 +3,7 @@ const startButton = document.querySelector(".button-19");
 const wrapper = document.querySelector(".wrapper");
 const slider = document.querySelector(".slider");
 
+const colorPickerButton = document.createElement("button");
 const eraser = document.createElement("button");
 const colorOptionsButton = document.createElement("button");
 const sliderNumberDiv = document.createElement("div");
@@ -22,11 +23,13 @@ let isNewGridActive = false;
 let isSliderActive = false;
 let isDragging = false;
 let isColorOptionsActive = false;
+let colorInputActive = false;
 
 let currentMode = "color-mode";
 let currColor;
 let pickerColor;
 
+let colorPickerButtonTimeout;
 let eraserBtnTimeout;
 let rainbowBtnTimeout;
 let leftContainerTimeout;
@@ -38,6 +41,13 @@ let closingBtnTimeoutL;
 let colorInputTimeout;
 
 let gridSize;
+
+function rgbToHex(rgb) {
+  const result = /^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/.exec(rgb);
+  return result ? '#' +
+      (1 << 24 | result[1] << 16 | result[2] << 8 | result[3])
+      .toString(16).slice(1).toUpperCase() : null;
+}
 
 function fillGridElements(newGridSize, newPixelSize) {
   gridSize = newGridSize;
@@ -72,6 +82,7 @@ function getRandomColor() {
 }
 
 container.addEventListener('mousedown', function (e) {
+  //clicking;
   if (e.target.classList.contains('grid-element') &&
   e.target.classList.contains('active')) {
     isDragging = true;
@@ -80,18 +91,36 @@ container.addEventListener('mousedown', function (e) {
       currColor = getRandomColor();
     }
 
+    else if (currentMode == "color-picker") {
+      if (rgbToHex(e.target.style.backgroundColor) == null) {
+        pickerColor = "#FFFFFF";
+        currColor = "#FFFFFF";
+        colorInput.setAttribute('value', '#FFFFFF');
+      }
+      else {
+        pickerColor = rgbToHex(e.target.style.backgroundColor);
+        currColor = pickerColor;
+        colorInput.setAttribute('value', `${currColor}`);
+      }
+      return;
+    }
+    
     e.target.style.backgroundColor = currColor;
   }
 });
 
 container.addEventListener('mouseover', function (e) {
+  //dragging;
   if (isDragging && e.target.classList.contains('grid-element')) {
     if (currentMode == "rainbow-mode") {
       currColor = getRandomColor();
     }
-
+    
+    else if (currentMode == "color-picker") {
+      return;
+    }
+    
     e.target.style.backgroundColor = currColor;
-
   }
 });
 
@@ -107,7 +136,6 @@ colorInput.addEventListener('input', (e) => {
   }
 
 });
-
 
 
 function setupColorInput() {
@@ -159,16 +187,29 @@ function setupRainbowModeButton() {
 }
 
 function setupEraserButton() {
- eraser.classList.add("common-button-style");
- eraser.classList.add("eraser-pos");
- eraser.classList.add("buttons-modes");
- eraser.dataset.mode = "eraser";
- eraser.innerText = "Eraser";
- wrapper.appendChild(eraser);
-
+  eraser.classList.add("common-button-style");
+  eraser.classList.add("eraser-pos");
+  eraser.classList.add("buttons-modes");
+  eraser.dataset.mode = "eraser";
+  eraser.innerText = "Eraser";
+  wrapper.appendChild(eraser);
+  
   eraserBtnTimeout = setTimeout(() => {
    eraser.style.opacity = "1";
   }, 300);
+}
+
+function setupColorPickerButton() {
+  colorPickerButton.classList.add("common-button-style");
+  colorPickerButton.classList.add("color-picker-pos");
+  colorPickerButton.classList.add("buttons-modes");
+  colorPickerButton.dataset.mode = "color-picker";
+  colorPickerButton.innerText = "Color Picker";
+  wrapper.appendChild(colorPickerButton);
+  
+   colorPickerButtonTimeout = setTimeout(() => {
+    colorPickerButton.style.opacity = "1";
+   }, 300);
 }
 
 function setupNewGridButton() {
@@ -321,64 +362,67 @@ newGridButton.addEventListener('click', () => {
   }
 });
 
-colorOptionsButton.addEventListener('click', () => {
+colorOptionsButton.addEventListener("click", () => {
   if (isClosingL) {
     return;
   }
-  
-  if (!isColorOptionsActive) {
-    colorOptionsButton.innerText = "Color Mode";
-    colorOptionsButton.classList.toggle("rainbow-button-style");
-    colorOptionsButton.classList.toggle("common-button-style");
-    colorOptionsButton.classList.toggle("common-button-clicked-style");
-    colorOptionsButton.classList.add("buttons-modes");
-    colorOptionsButton.dataset.mode = "color-mode";
-    
-    setupCloseButtonL();
-    
-    setupLeftContainer();
-    
-    setupColorInput();
-    
-    setupRainbowModeButton();
-    
-    setupEraserButton();
 
-    const buttonsModes = document.querySelectorAll(".buttons-modes");
-
-    buttonsModes.forEach(btn => {
-      btn.addEventListener('click', function () {
-        buttonsModes.forEach(innerBtn => {
-          innerBtn.classList.remove("common-button-clicked-style");
-        });
-        this.classList.add("common-button-clicked-style")
-    
-        switch(this.dataset.mode) {
-          case "color-mode":
-            currColor = pickerColor;
-            currentMode = "color-mode";
-            // console.log("color-mode");
-            break;
-          case "rainbow-mode":
-            currentMode = "rainbow-mode";
-            // console.log("rainbow-mode");
-            break;
-          case "eraser":
-            currColor = "white";
-            currentMode = "eraser";
-            // console.log("eraser");
-            break;
-        }
-      });
-    });
-
-    isColorOptionsActive = true;
+  if (isColorOptionsActive) {
+    return;
   }
-  // else {
-    
-    
-    //   isColorOptionsActive = false;
-    // }
+
+  colorOptionsButton.innerText = "Color Mode";
+  colorOptionsButton.classList.toggle("rainbow-button-style");
+  colorOptionsButton.classList.toggle("common-button-style");
+  colorOptionsButton.classList.toggle("common-button-clicked-style");
+  colorOptionsButton.classList.add("buttons-modes");
+  colorOptionsButton.dataset.mode = "color-mode";
+
+  setupCloseButtonL();
+
+  setupLeftContainer();
+
+  setupColorInput();
+
+  setupRainbowModeButton();
+
+  setupEraserButton();
+
+  setupColorPickerButton();
+
+  const buttonsModes = document.querySelectorAll(".buttons-modes");
+
+  buttonsModes.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      buttonsModes.forEach((innerBtn) => {
+        innerBtn.classList.remove("common-button-clicked-style");
+      });
+      this.classList.add("common-button-clicked-style");
+
+      switch (this.dataset.mode) {
+        case "color-mode":
+          currColor = pickerColor;
+          currentMode = "color-mode";
+          // console.log("color-mode");
+          break;
+        case "rainbow-mode":
+          currentMode = "rainbow-mode";
+          // console.log("rainbow-mode");
+          break;
+        case "eraser":
+          currColor = "white";
+          currentMode = "eraser";
+          // console.log("eraser");
+          break;
+        case "color-picker":
+          currentMode = "color-picker";
+          console.log("color-picker");
+          break;
+      }
+    });
+  });
+
+  isColorOptionsActive = true;
 });
 
 closeGridButtonL.addEventListener('click', () => {
@@ -386,6 +430,7 @@ closeGridButtonL.addEventListener('click', () => {
   clearTimeout(closingBtnTimeoutL);
   clearTimeout(leftContainerTimeout);
   clearTimeout(eraserBtnTimeout);
+  clearTimeout(colorPickerButtonTimeout);
 
   isClosingL = true;
   isColorOptionsActive = false;
@@ -403,12 +448,16 @@ closeGridButtonL.addEventListener('click', () => {
   rainbowModeButton.style.opacity = '0';
 
   colorInput.remove();
+  colorInput.style.opacity = '0';
+
   colorInputWrapper.remove();
   colorInputWrapper.opacity = '0';
-  colorInput.style.opacity = '0';
 
   eraser.remove();
   eraser.style.opacity = '0';
+
+  colorPickerButton.remove();
+  colorPickerButton.style.opacity = '0';
 
   setTimeout(() => {
     leftContainer.style.opacity = '0';
