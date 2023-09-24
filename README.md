@@ -1,6 +1,4 @@
 # etch-a-sketch
-Etch a scetch done in HTML, CSS and JS.
+Interactive etch a sketch done in HTML, CSS and JS. (link: [Click Me!](https://dimsito1.github.io/etch-a-sketch/))
 
 ![Etch a Sketch](new-etch-png-copy.png)
-
-link: [Click Me!](https://dimsito1.github.io/etch-a-sketch/)
