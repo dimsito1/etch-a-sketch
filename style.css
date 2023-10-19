@@ -301,7 +301,7 @@ h3 {
 
 .slider-number {
     z-index: 2;
-    width: 4rem;
+    width: 6rem;
     color: rgba(142,143,152,255);
     top: 17%;
     left: calc(124% + 2px);
