@@ -42,14 +42,14 @@ let colorInputTimeout;
 
 let gridSize;
 
-function rgbToHex(rgb) {
+const rgbToHex = (rgb) => {
   const result = /^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/.exec(rgb);
   return result ? '#' +
       (1 << 24 | result[1] << 16 | result[2] << 8 | result[3])
       .toString(16).slice(1).toUpperCase() : null;
 }
 
-function fillGridElements(newGridSize, newPixelSize) {
+const fillGridElements = (newGridSize, newPixelSize) => {
   gridSize = newGridSize;
   
   if (isGridFilled) {
@@ -72,7 +72,7 @@ function fillGridElements(newGridSize, newPixelSize) {
   isGridFilled = true;
 }
 
-function getRandomColor() {
+  const getRandomColor = () => {
   const letters = '0123456789ABCDEF';
   let color = '#';
   for (let i = 0; i < 6; i++) {
@@ -102,6 +102,10 @@ container.addEventListener('mousedown', function (e) {
         currColor = pickerColor;
         colorInput.setAttribute('value', `${currColor}`);
       }
+      
+      //assign color picker color to selected color
+      colorInput.value = currColor;
+
       return;
     }
     
@@ -112,11 +116,11 @@ container.addEventListener('mousedown', function (e) {
 container.addEventListener('mouseover', function (e) {
   //dragging;
   if (isDragging && e.target.classList.contains('grid-element')) {
-    if (currentMode == "rainbow-mode") {
+    if (currentMode === "rainbow-mode") {
       currColor = getRandomColor();
     }
-    
-    else if (currentMode == "color-picker") {
+    //cannot draw in color picker mode;
+    else if (currentMode === "color-picker") {
       return;
     }
     
@@ -129,8 +133,9 @@ document.addEventListener('mouseup', function () {
 });
 
 colorInput.addEventListener('input', (e) => {
+  //manually change color
   pickerColor = e.target.value;
-
+  
   if(currentMode == "color-mode") {
     currColor = pickerColor;
   }
@@ -138,7 +143,7 @@ colorInput.addEventListener('input', (e) => {
 });
 
 
-function setupColorInput() {
+const setupColorInput = () => {
   colorInputWrapper.classList.add("color-input-wrapper");
   colorInput.classList.add("color-input-pos");
   colorInput.setAttribute('type', 'color');
@@ -163,7 +168,7 @@ function setupColorInput() {
   currColor = colorInput.value;
 }
 
-function setupSliderNumber() {
+const setupSliderNumber = () => {
   sliderNumberDiv.classList.add("slider-number");
   sliderNumberDiv.innerText = "16 x 16";
   sliderNumberDiv.style.opacity = '0';
@@ -173,7 +178,7 @@ function setupSliderNumber() {
   }, 450);
 }
 
-function setupRainbowModeButton() {
+const setupRainbowModeButton = () => {
   rainbowModeButton.classList.add("common-button-style");
   rainbowModeButton.classList.add("rainbow-mode-button-pos");
   rainbowModeButton.classList.add("buttons-modes");
@@ -186,7 +191,7 @@ function setupRainbowModeButton() {
   }, 300);
 }
 
-function setupEraserButton() {
+const setupEraserButton = () => {
   eraser.classList.add("common-button-style");
   eraser.classList.add("eraser-pos");
   eraser.classList.add("buttons-modes");
@@ -199,7 +204,7 @@ function setupEraserButton() {
   }, 300);
 }
 
-function setupColorPickerButton() {
+const setupColorPickerButton = () => {
   colorPickerButton.classList.add("common-button-style");
   colorPickerButton.classList.add("color-picker-pos");
   colorPickerButton.classList.add("buttons-modes");
@@ -212,7 +217,7 @@ function setupColorPickerButton() {
    }, 300);
 }
 
-function setupNewGridButton() {
+const setupNewGridButton = () => {
   newGridButton.classList.add("rainbow-button-style");
   newGridButton.classList.add("button-new-grid-pos");
   newGridButton.innerText = "New Grid";
@@ -222,7 +227,7 @@ function setupNewGridButton() {
   }, 300);
 }
 
-function setupCloseButtonR() {
+const setupCloseButtonR = () => {
   closeGridButtonR.classList.add("close-button-style");
   closeGridButtonR.classList.add("close-button-pos-r");
   closeGridButtonR.innerText = "X";
@@ -232,7 +237,7 @@ function setupCloseButtonR() {
   }, 300);
 }
 
-function setupCloseButtonL() {
+const setupCloseButtonL = () => {
   closeGridButtonL.classList.add("close-button-style");
   closeGridButtonL.classList.add("close-button-pos-l");
   closeGridButtonL.innerText = "X";
@@ -242,7 +247,7 @@ function setupCloseButtonL() {
   }, 300);
 }
 
-function setupColorOptionsButton() {
+const setupColorOptionsButton = () => {
   colorOptionsButton.classList.add("rainbow-button-style");
   colorOptionsButton.classList.add("color-options-button-pos");
   colorOptionsButton.innerText = "Color Options";
@@ -252,7 +257,7 @@ function setupColorOptionsButton() {
   }, 300);
 }
 
-function setupRightContainer() {
+const setupRightContainer = () => {
   rightContainer.classList.add("right-container-pos");
   rightContainer.classList.add("container-style");
   rightContainer.style.animation = "expandRightRectangle 1s forwards";
@@ -262,7 +267,7 @@ function setupRightContainer() {
   }, 300);
 }
 
-function setupLeftContainer() {
+const setupLeftContainer = () => {
   leftContainer.classList.add("left-container-pos");
   leftContainer.classList.add("container-style");
   leftContainer.style.animation = "expandLeftRectangle 1s forwards";
@@ -272,7 +277,7 @@ function setupLeftContainer() {
   }, 300)
 }
 
-function gridAnimation(gridSize, delay) {
+const gridAnimation = (gridSize, delay) => {
   const gridElements = document.querySelectorAll(".grid-element");
   
   for (let index = 0; index < gridSize * gridSize; index++) {
